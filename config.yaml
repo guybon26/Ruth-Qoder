@@ -1,0 +1,38 @@
+# Configuration for Edge-First Hybrid SLM-LLM Personal Assistant
+
+# SLM Configuration
+slm:
+  model_path: "models/phi-3-mini-4k-instruct-q4.gguf"
+  n_ctx: 4096
+  n_threads: 4
+  verbose: false
+
+# LLM Configuration
+llm:
+  api_key: "YOUR_OPENAI_API_KEY"
+  model: "gpt-4o"
+  base_url: "https://api.openai.com/v1"
+
+# Orchestration
+orchestration:
+  uncertainty_threshold: 0.7
+  max_local_tokens: 2048
+
+# Domains
+domains:
+  healthcare:
+    enabled: true
+  education:
+    enabled: true
+  productivity:
+    enabled: true
+
+# Federated Learning
+federated:
+  enabled: false
+  server_address: "localhost:8080"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
