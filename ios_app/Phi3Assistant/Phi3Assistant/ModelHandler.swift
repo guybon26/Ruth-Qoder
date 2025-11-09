@@ -1,154 +1,200 @@
 import Foundation
-import OnnxRuntime
 
 class ModelHandler: ObservableObject {
-    private var session: ORTSession?
-    private var env: ORTEnv?
+    private var onnxWrapper: ONNXRuntimeWrapper?
     private var tokenizer: Tokenizer?
-    private var inferenceEngine: ONNXInference?
+    private var textGenerator: TextGenerator?
+    private var modelReady = false
     
     init() {
-        loadModel()
+        NSLog("✅ ModelHandler init started")
         tokenizer = Tokenizer()
+        loadModel()
+        NSLog("✅ ModelHandler init completed. Model ready: \(modelReady)")
     }
     
     private func loadModel() {
         do {
-            // Initialize ONNX Runtime environment
-            env = try ORTEnv(loggingLevel: ORTLoggingLevel.warning)
+            NSLog("📂 Bundle path: \(Bundle.main.bundlePath)")
             
-            // Get path to model file
-            guard let modelPath = Bundle.main.path(forResource: "phi3-mini-128k-instruct-cpu-int4-rtn-block-32", ofType: "onnx") else {
-                print("Model file not found in bundle")
+            // List all files in bundle to debug
+            if let bundleContents = try? FileManager.default.contentsOfDirectory(atPath: Bundle.main.bundlePath) {
+                let onnxFiles = bundleContents.filter { $0.contains("onnx") }
+                NSLog("📋 ONNX files in bundle: \(onnxFiles)")
+            }
+            
+            // Try different methods to find the model
+            var modelPath: String?
+            
+            // Method 1: Using Bundle.main.path
+            modelPath = Bundle.main.path(forResource: "Phi-3-mini-4k-instruct-q4", ofType: "onnx")
+            if modelPath == nil {
+                NSLog("⚠️ Method 1 failed: Bundle.main.path returned nil")
+                
+                // Method 2: Direct path in bundle
+                let directPath = Bundle.main.bundlePath + "/Phi-3-mini-4k-instruct-q4.onnx"
+                if FileManager.default.fileExists(atPath: directPath) {
+                    modelPath = directPath
+                    NSLog("✅ Method 2 succeeded: Found at \(directPath)")
+                } else {
+                    NSLog("⚠️ Method 2 failed: File doesn't exist at \(directPath)")
+                }
+            } else {
+                NSLog("✅ Method 1 succeeded: Found at \(modelPath!)")
+            }
+            
+            guard let finalModelPath = modelPath else {
+                NSLog("❌ Model file not found in bundle")
+                NSLog("Searched for: Phi-3-mini-4k-instruct-q4.onnx")
+                modelReady = false
                 return
             }
             
-            // Create inference session
-            session = try ORTSession(env: env!, modelPath: modelPath)
-            print("Model loaded successfully")
+            NSLog("📦 Model found at: \(finalModelPath)")
+            let fileSize = try! FileManager.default.attributesOfItem(atPath: finalModelPath)[.size] as! UInt64
+            NSLog("📊 Model size: \(fileSize / 1_000_000) MB")
             
-            // Initialize inference engine
-            inferenceEngine = try ONNXInference(modelPath: modelPath)
+            // Initialize ONNX Runtime wrapper
+            onnxWrapper = try ONNXRuntimeWrapper(modelPath: finalModelPath)
+            
+            // Initialize text generator
+            if let wrapper = onnxWrapper, let tok = tokenizer {
+                textGenerator = TextGenerator(onnxWrapper: wrapper, tokenizer: tok)
+            }
+            
+            // Print model info
+            if let wrapper = onnxWrapper {
+                NSLog("✅ Model loaded successfully!")
+                NSLog("📝 Input names: \(try! wrapper.getInputNames())")
+                NSLog("📝 Output names: \(try! wrapper.getOutputNames())")
+                modelReady = true
+            }
         } catch {
-            print("Error loading model: \(error)")
+            NSLog("❌ Error loading model: \(error)")
+            modelReady = false
         }
     }
     
     func processQuery(_ query: String) -> String {
-        guard let session = session else {
-            return "Model not loaded"
+        guard modelReady, let wrapper = onnxWrapper, let tok = tokenizer else {
+            return "⚠️ Model not loaded. Please check if model files are in the bundle."
         }
         
-        do {
-            // Tokenize the input query using Phi-3 tokenizer
-            let inputIds = tokenizer?.encode(query) ?? tokenize(query)
-            let int32Ids = inputIds.map { Int32($0) }
-            
-            // Create attention mask (all 1s for input tokens)
-            let attentionMask = Array(repeating: Int32(1), count: int32Ids.count)
-            
-            // Run inference if inference engine is available
-            if let inferenceEngine = inferenceEngine {
-                let outputs = try inferenceEngine.runInference(inputIds: int32Ids, attentionMask: attentionMask)
+        NSLog("🔄 Processing query: \(query)")
+        
+        // Use exact token sequence from transformers tokenizer
+        // Format: <|system|>You are a helpful assistant.<|end|><|user|>{query}<|end|><|assistant|>
+        
+        let systemToken: Int64 = 32006  // <|system|>
+        let userToken: Int64 = 32010     // <|user|>
+        let assistantToken: Int64 = 32001  // <|assistant|>
+        let endToken: Int64 = 32007      // <|end|>
+        
+        // Fixed tokens for "You are a helpful assistant."
+        // From: tokenizer.encode("You are a helpful assistant.") = [887, 526, 263, 8444, 20255, 29889]
+        let systemMsgTokens: [Int64] = [887, 526, 263, 8444, 20255, 29889]
+        
+        // Encode user query (using simplified encoder)
+        var userTokens = tok.encode(query).map { Int64($0) }
+        
+        NSLog("📝 User query encoded to \(userTokens.count) tokens: \(userTokens)")
+        
+        // Build prompt: <|system|>...tokens...<|end|><|user|>...tokens...<|end|><|assistant|>
+        var inputTokens: [Int64] = [systemToken]
+        inputTokens += systemMsgTokens
+        inputTokens += [endToken, userToken]
+        inputTokens += userTokens
+        inputTokens += [endToken, assistantToken]
+        
+        NSLog("🎯 Full input: \(inputTokens.count) tokens")
+        NSLog("📊 Breakdown: system=\(systemMsgTokens.count), user=\(userTokens.count), special=5")
+        
+        // Iterative generation parameters
+        let maxNewTokens = 100
+        let temperature: Float = 0.7
+        var generatedTokenIds: [Int] = []
+        var generatedText = ""
+        
+        let startTime = CFAbsoluteTimeGetCurrent()
+        
+        // Generation loop
+        for step in 0..<maxNewTokens {
+            do {
+                // Run inference
+                let logits = try wrapper.runInference(inputIds: inputTokens)
                 
-                // Process outputs - in a real implementation, you would sample from the logits
-                // For now, we'll just return a simple response
-                let response = generateResponse(from: outputs, inputQuery: query)
-                return response
-            } else {
-                // Fallback to simulated processing
-                Thread.sleep(forTimeInterval: 1.0)
-                return "This is a response to your query: \"\(query)\" processed by Phi-3 Mini using ONNX Runtime."
+                // Get logits for last position
+                let vocabSize = 32064
+                let lastLogits = Array(logits.suffix(vocabSize))
+                
+                // Sample next token (with temperature)
+                let nextTokenId = sampleToken(logits: lastLogits, temperature: temperature)
+                
+                // Check for end token
+                if nextTokenId == Int(endToken) {
+                    NSLog("✅ Generated <|end|> token at step \(step)")
+                    break
+                }
+                
+                // Decode and append
+                let tokenText = tok.decode([nextTokenId])
+                generatedText += tokenText
+                generatedTokenIds.append(nextTokenId)
+                
+                // Append to input for next iteration
+                inputTokens.append(Int64(nextTokenId))
+                
+                if step % 10 == 0 {
+                    NSLog("Step \(step): Token [\(nextTokenId)] = \"\(tokenText)\"")
+                }
+                
+            } catch {
+                NSLog("❌ Error at step \(step): \(error)")
+                break
             }
-        } catch {
-            print("Error processing query: \(error)")
-            return "Error processing query: \(error.localizedDescription)"
-        }
-    }
-    
-    func processQueryWithModel(_ query: String, maxTokens: Int = 512) -> (response: String, confidence: Float, processingTime: TimeInterval) {
-        guard let session = session else {
-            return ("Model not loaded", 0.0, 0.0)
         }
         
-        do {
-            let startTime = CFAbsoluteTimeGetCurrent()
-            
-            // Tokenize the input query using Phi-3 tokenizer
-            let inputIds = tokenizer?.encode(query) ?? tokenize(query)
-            let int32Ids = inputIds.map { Int32($0) }
-            
-            // Create attention mask (all 1s for input tokens)
-            let attentionMask = Array(repeating: Int32(1), count: int32Ids.count)
-            
-            // Run inference if inference engine is available
-            var response = ""
-            if let inferenceEngine = inferenceEngine {
-                let outputs = try inferenceEngine.runInference(inputIds: int32Ids, attentionMask: attentionMask)
-                response = generateResponse(from: outputs, inputQuery: query)
-            } else {
-                // Fallback to simulated processing
-                response = "This is a response to your query: \"\(query)\" (simulated ONNX inference)"
-            }
-            
-            let processingTime = CFAbsoluteTimeGetCurrent() - startTime
-            
-            // Calculate confidence (simplified)
-            let confidence = calculateConfidence(response)
-            
-            return (response, confidence, processingTime)
-        } catch {
-            print("Error processing query: \(error)")
-            return ("Error processing query: \(error.localizedDescription)", 0.0, 0.0)
+        let totalTime = CFAbsoluteTimeGetCurrent() - startTime
+        let tokensPerSecond = generatedTokenIds.count > 0 ? Float(generatedTokenIds.count) / Float(totalTime) : 0
+        
+        NSLog("✅ Generation complete!")
+        NSLog("📊 Stats: \(generatedTokenIds.count) tokens in \(String(format: "%.2f", totalTime))s")
+        NSLog("⚡ Speed: \(String(format: "%.1f", tokensPerSecond)) tok/s")
+        
+        let response = """
+        ✅ Phi-3 Mini
+        
+        Q: \(query)
+        
+        A: \(generatedText)
+        
+        ---
+        ⚡ \(generatedTokenIds.count) tokens · \(String(format: "%.2f", totalTime))s · \(String(format: "%.1f", tokensPerSecond)) tok/s
+        📱 100% on-device
+        """
+        
+        return response
+    }
+    
+    private func sampleToken(logits: [Float], temperature: Float) -> Int {
+        // Apply temperature scaling
+        let scaledLogits = logits.map { $0 / temperature }
+        
+        // Apply softmax to get probabilities
+        let maxLogit = scaledLogits.max() ?? 0
+        let expLogits = scaledLogits.map { exp($0 - maxLogit) }
+        let sumExp = expLogits.reduce(0, +)
+        let probabilities = expLogits.map { $0 / sumExp }
+        
+        // Find top token (greedy sampling for now)
+        if let maxIndex = probabilities.enumerated().max(by: { $0.element < $1.element })?.offset {
+            return maxIndex
         }
-    }
-    
-    private func generateResponse(from logits: [Float], inputQuery: String) -> String {
-        // In a real implementation, you would:
-        // 1. Apply softmax to logits
-        // 2. Sample from the distribution
-        // 3. Decode the generated tokens
-        // 4. Continue generation until end token or max length
         
-        // Simplified response generation
-        let responseTemplates = [
-            "I understand your query about \"\(inputQuery)\". Based on my analysis, I can provide insights on this topic.",
-            "Regarding \"\(inputQuery)\", this is an interesting question that requires careful consideration.",
-            "Your query about \"\(inputQuery)\" touches on important aspects that I can help explain.",
-            "After processing your input \"\(inputQuery)\", I've generated a comprehensive response."
-        ]
-        
-        let randomIndex = Int.random(in: 0..<responseTemplates.count)
-        return responseTemplates[randomIndex]
-    }
-    
-    private func tokenize(_ text: String) -> [Int] {
-        // In a real implementation, you would use the Phi-3 tokenizer
-        // This is a placeholder implementation that converts characters to integers
-        // For a real implementation, you would need to integrate with a proper tokenizer
-        
-        // Simple character-level tokenization for demonstration
-        let tokens = text.utf8.map { Int($0) }
-        // Limit to first 100 tokens to avoid excessive processing
-        return Array(tokens.prefix(100))
-    }
-    
-    private func detokenize(_ tokens: [Int]) -> String {
-        // In a real implementation, you would convert tokens back to text using Phi-3 tokenizer
-        // This is a placeholder implementation
-        
-        // Simple character-level detokenization for demonstration
-        let characters = tokens.compactMap { UnicodeScalar($0) }
-        return String(String.UnicodeScalarView(characters))
-    }
-    
-    private func calculateConfidence(_ response: String) -> Float {
-        // In a real implementation, you would calculate confidence based on model outputs
-        // For now, we'll return a random confidence value
-        return Float.random(in: 0.7...0.95)
+        return 0 // fallback to <unk>
     }
     
     func isModelLoaded() -> Bool {
-        return session != nil
+        return modelReady
     }
 }

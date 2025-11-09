@@ -1,3 +1,10 @@
+//
+//  Phi3AssistantApp.swift
+//  Phi3Assistant
+//
+//  Created by Guy Bonnen on 09/11/2025.
+//
+
 import SwiftUI
 
 @main

@@ -132,3 +132,16 @@ models/
 # IDE
 .vscode/
 .idea/
+# iOS build artifacts
+*.xcuserstate
+xcuserdata/
+.DS_Store
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Large model files (use Git LFS instead)
+*.onnx
+*.onnx.data
+

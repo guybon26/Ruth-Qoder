@@ -1,101 +1,79 @@
+//
+//  ContentView.swift
+//  Phi3Assistant
+//
+//  Created by Guy Bonnen on 09/11/2025.
+//
+
 import SwiftUI
 
 struct ContentView: View {
-    @State private var inputText = ""
-    @State private var outputText = ""
-    @State private var isProcessing = false
-    @State private var modelStatus = "Not Loaded"
     @StateObject private var modelHandler = ModelHandler()
+    @State private var userInput: String = ""
+    @State private var response: String = "Welcome to Phi3 Assistant! Ask me anything."
+    @State private var isProcessing: Bool = false
     
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                Text("Phi-3 Mini Assistant")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("Model Status:")
-                        .font(.headline)
-                    Text(modelStatus)
-                        .font(.caption)
-                        .foregroundColor(modelHandler.isModelLoaded() ? .green : .red)
-                }
-                
-                Text("Enter your query below:")
-                    .font(.headline)
-                
-                TextEditor(text: $inputText)
-                    .frame(height: 100)
-                    .padding()
-                    .border(Color.gray, width: 1)
-                
-                Button(action: processQuery) {
-                    HStack {
-                        if isProcessing {
-                            ProgressView()
-                                .scaleEffect(0.8)
-                        }
-                        Text("Process Query")
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                }
-                .disabled(isProcessing || inputText.isEmpty || !modelHandler.isModelLoaded())
-                
-                Text("Response:")
-                    .font(.headline)
-                
+                // Response area
                 ScrollView {
-                    Text(outputText)
+                    Text(response)
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
                 }
-                .frame(maxHeight: 200)
-                .padding()
-                .border(Color.gray, width: 1)
+                .frame(maxHeight: .infinity)
                 
-                Spacer()
+                // Input area
+                VStack(spacing: 10) {
+                    TextField("Ask me anything...", text: $userInput)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .disabled(isProcessing)
+                    
+                    Button(action: processQuery) {
+                        HStack {
+                            if isProcessing {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                            }
+                            Text(isProcessing ? "Processing..." : "Send")
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isProcessing ? Color.gray : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    }
+                    .disabled(isProcessing || userInput.isEmpty)
+                }
+                .padding()
             }
+            .navigationTitle("Phi3 Assistant")
             .padding()
-            .navigationTitle("Phi-3 Assistant")
-        }
-        .onAppear {
-            updateModelStatus()
-        }
-    }
-    
-    private func updateModelStatus() {
-        if modelHandler.isModelLoaded() {
-            modelStatus = "Loaded Successfully"
-        } else {
-            modelStatus = "Not Loaded"
         }
     }
     
     private func processQuery() {
-        isProcessing = true
-        outputText = "Processing your query..."
+        guard !userInput.isEmpty else { return }
         
-        // Process the query in the background
+        isProcessing = true
+        let query = userInput
+        userInput = ""
+        
+        // Process in background
         DispatchQueue.global(qos: .userInitiated).async {
-            let response = modelHandler.processQuery(inputText)
+            let result = modelHandler.processQuery(query)
             
-            // Update UI on main thread
             DispatchQueue.main.async {
-                outputText = response
+                response = result
                 isProcessing = false
-                updateModelStatus()
             }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+#Preview {
+    ContentView()
 }
