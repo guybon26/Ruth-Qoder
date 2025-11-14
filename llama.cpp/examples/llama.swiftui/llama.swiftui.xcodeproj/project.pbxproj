@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3528C67DD07F225FC39D8713 /* RuthInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E16A017C7F449D206EA38C /* RuthInsightsView.swift */; };
 		549479CB2AC9E16000E0F78B /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 549479CA2AC9E16000E0F78B /* Metal.framework */; };
-		7707BD93DBA60A8A172C46EF /* Agents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7869CEF747E7A87C5CC009 /* Agents.swift */; };
 		79E1D9CD2B4CD16E005F8E46 /* InputButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E1D9CC2B4CD16E005F8E46 /* InputButton.swift */; };
 		7FA3D2B32B2EA2F600543F92 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA3D2B22B2EA2F600543F92 /* DownloadButton.swift */; };
 		8A1C83772AC328BD0096AF73 /* llama_swiftuiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1C83762AC328BD0096AF73 /* llama_swiftuiApp.swift */; };
@@ -68,7 +68,6 @@
 /* Begin PBXFileReference section */
 		2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerView.swift; sourceTree = "<group>"; };
 		549479CA2AC9E16000E0F78B /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
-		6C7869CEF747E7A87C5CC009 /* Agents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Agents.swift; sourceTree = "<group>"; };
 		79E1D9CC2B4CD16E005F8E46 /* InputButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputButton.swift; sourceTree = "<group>"; };
 		7FA3D2B22B2EA2F600543F92 /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		81E367A3D7A532A53A8668C6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +79,7 @@
 		8A3F84232AC4C891005E2EE8 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = llama.swiftui/Resources/models; sourceTree = "<group>"; };
 		8A907F322AC7134E006146EA /* LibLlama.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibLlama.swift; sourceTree = "<group>"; };
 		8A9F7C4C2AC332EE008AE1EA /* LlamaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaState.swift; sourceTree = "<group>"; };
+		A7E16A017C7F449D206EA38C /* RuthInsightsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RuthInsightsView.swift; sourceTree = "<group>"; };
 		AB123ABB2AC332EE008AE1EA /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
 		AB123ABD2AC332EE008AE1EA /* RemoteLLM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLLM.swift; sourceTree = "<group>"; };
 		AB123AC02AC332EE008AE1EA /* IosSensorBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosSensorBridge.swift; sourceTree = "<group>"; };
@@ -283,6 +283,7 @@
 				RU123AE62AC332EE008AE1EA /* PhotoEditorView.swift */,
 				RU123AE82AC332EE008AE1EA /* VideoEditorView.swift */,
 				RU123AEA2AC332EE008AE1EA /* SettingsView.swift */,
+				A7E16A017C7F449D206EA38C /* RuthInsightsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -394,6 +395,7 @@
 				AD82ACCD34E93B6DCEF06849 /* MediaPickerView.swift in Sources */,
 				985B42618E735556E41B2D39 /* ZKProofEngine.swift in Sources */,
 				EAA4AE554CB2F182C2D915BF /* Agents.swift in Sources */,
+				3528C67DD07F225FC39D8713 /* RuthInsightsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

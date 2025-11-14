@@ -113,6 +113,29 @@ class PreferenceEngine {
         print("✓ Preferences refreshed")
     }
     
+    /// Get top N most used tools
+    func getTopTools(limit: Int = 5) -> [ToolPreference] {
+        return getAllToolPreferences()
+            .sorted { $0.totalUses > $1.totalUses }
+            .prefix(limit)
+            .map { $0 }
+    }
+    
+    /// Get messages per hour (hour, count)
+    func getMessagesPerHour() -> [(hour: Int, count: Int)] {
+        return hourlyInteractionCounts
+            .map { (hour: $0.key, count: $0.value.total) }
+            .sorted { $0.hour < $1.hour }
+    }
+    
+    /// Get N busiest hours
+    func getBusiestHours(limit: Int = 3) -> [(hour: Int, count: Int)] {
+        return getMessagesPerHour()
+            .sorted { $0.count > $1.count }
+            .prefix(limit)
+            .map { $0 }
+    }
+    
     // MARK: - Private Methods
     
     private func computePreferences() {

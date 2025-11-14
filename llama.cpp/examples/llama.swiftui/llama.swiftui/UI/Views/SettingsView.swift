@@ -6,6 +6,7 @@ struct SettingsView: View {
     @State private var showPersonalization = false
     @State private var showPrivacy = false
     @State private var showLearningData = false
+    @State private var showInsights = false
     
     var body: some View {
         NavigationStack {
@@ -55,6 +56,9 @@ struct SettingsView: View {
                     }
                     .iconStyle()
                 }
+            }
+            .sheet(isPresented: $showInsights) {
+                RuthInsightsView()
             }
         }
     }
@@ -128,6 +132,13 @@ struct SettingsView: View {
     
     private var learningDataSection: some View {
         SettingsSection(title: "What Ruth Has Learned") {
+            SettingsRow(
+                icon: "brain.head.profile",
+                title: "View Insights",
+                subtitle: "See what Ruth knows about you",
+                action: { showInsights = true }
+            )
+            
             LearnedDataRow(
                 icon: "photo.fill",
                 title: "Photo Preferences",
