@@ -17,6 +17,9 @@ struct ChatView: View {
     @State private var selectedFileURL: URL? = nil
     @State private var showMediaBar = false
     
+    // Memory & Preferences (optional - doesn't break if not set)
+    private let memoryStore: LocalContextStore? = LocalContextStore.shared
+    
     var initialPrompt: String?
     
     var body: some View {
@@ -151,6 +154,9 @@ struct ChatView: View {
         
         let promptToSend = messageText
         
+        // Log user message to memory store
+        memoryStore?.logEvent(.querySubmitted(query: promptToSend, timestamp: Date()))
+        
         withAnimation(.ruthSpring) {
             messages.append(userMessage)
         }
@@ -217,6 +223,9 @@ struct ChatView: View {
             isUser: false,
             source: source
         )
+        
+        // Log assistant response to memory store
+        memoryStore?.logEvent(.querySubmitted(query: responseText, timestamp: Date()))
         
         withAnimation(.ruthSpring) {
             messages.append(response)
