@@ -263,10 +263,12 @@ struct ChatView: View {
     private func extractResponse(before: String, after: String) -> String {
         // Extract the new content added to messageLog
         guard after.count > before.count else {
+            print("⚠️ No new content in messageLog")
             return "No response generated"
         }
         
         let newContent = String(after.dropFirst(before.count))
+        print("📝 Raw new content (\(newContent.count) chars): \(newContent.prefix(200))...")
         
         // Find the actual response by removing known metadata patterns
         var cleanedContent = newContent
@@ -276,9 +278,18 @@ struct ChatView: View {
             cleanedContent.removeSubrange(usingRange)
         }
         
-        // Remove the user prompt (first line after "[Using:...]")
-        if let firstNewline = cleanedContent.firstIndex(of: "\n") {
-            cleanedContent = String(cleanedContent[cleanedContent.index(after: firstNewline)...])
+        // Remove the user prompt echo (everything up to and including the first double newline)
+        // This handles the case where the model echoes the prompt before responding
+        if let doubleNewline = cleanedContent.range(of: "\n\n") {
+            // Skip past the prompt echo to get the actual response
+            cleanedContent = String(cleanedContent[doubleNewline.upperBound...])
+        } else if let firstNewline = cleanedContent.firstIndex(of: "\n") {
+            // Fallback: just skip the first line if no double newline found
+            let afterFirstLine = String(cleanedContent[cleanedContent.index(after: firstNewline)...])
+            // Only remove if the first line looks like the prompt (not the response)
+            if !afterFirstLine.isEmpty {
+                cleanedContent = afterFirstLine
+            }
         }
         
         // Remove trailing statistics ("Done\nHeat up took...\nGenerated...")
@@ -296,9 +307,20 @@ struct ChatView: View {
             .trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Debug: print what we extracted
-        print("📝 Extracted response (\(response.count) chars): \(response.prefix(100))...")
+        print("📝 Extracted response (\(response.count) chars): \(response.prefix(200))...")
         
-        return response.isEmpty ? "[Model generated empty response]" : response
+        if response.isEmpty {
+            print("⚠️ Response is empty after cleaning. Raw content was: \(newContent.prefix(500))")
+            // Return the raw content with minimal cleaning as fallback
+            let fallback = newContent
+                .replacingOccurrences(of: #"\[Using: [^\]]+\]\n"#, with: "", options: .regularExpression)
+                .replacingOccurrences(of: #"\n\s*Done\s*\n.*$"#, with: "", options: .regularExpression)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            return fallback.isEmpty ? "[Model generated empty response]" : fallback
+        }
+        
+        return response
     }
     
     private func simulateResponse() {
