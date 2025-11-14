@@ -562,6 +562,35 @@ struct ChatInputBar: View {
     }
 }
 
+// MARK: - Tool Execution Extension
+
+extension ChatView {
+    /// Execute a tool by name with JSON payload
+    /// Returns the tool result or nil if tool not found
+    func executeTool(named name: String, jsonPayload: String) async -> String? {
+        do {
+            let result = try await ToolRegistry.shared.execute(name, input: ["payload": jsonPayload])
+            print("✅ Tool \(name) executed successfully")
+            
+            // Log tool execution to memory store
+            memoryStore?.logEvent(
+                .toolExecuted(toolName: name, success: true, timestamp: Date())
+            )
+            
+            return String(describing: result)
+        } catch {
+            print("❌ Tool \(name) failed: \(error.localizedDescription)")
+            
+            // Log failed execution
+            memoryStore?.logEvent(
+                .toolExecuted(toolName: name, success: false, timestamp: Date())
+            )
+            
+            return "Tool error: \(error.localizedDescription)"
+        }
+    }
+}
+
 #Preview {
     NavigationStack {
         ChatView()

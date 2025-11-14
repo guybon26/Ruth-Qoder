@@ -17,6 +17,7 @@
 		8A3F84242AC4C891005E2EE8 /* models in Resources */ = {isa = PBXBuildFile; fileRef = 8A3F84232AC4C891005E2EE8 /* models */; };
 		8A907F332AC7138A006146EA /* LibLlama.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A907F322AC7134E006146EA /* LibLlama.swift */; };
 		8A9F7C4D2AC332EE008AE1EA /* LlamaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9F7C4C2AC332EE008AE1EA /* LlamaState.swift */; };
+		AA0E9B658DC71FFF4D810FBF /* ToolExecution+ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A9E7E52357DCBAA52E4703 /* ToolExecution+ChatView.swift */; };
 		AB123ABC2AC332EE008AE1EA /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123ABB2AC332EE008AE1EA /* TaskRouter.swift */; };
 		AB123ABE2AC332EE008AE1EA /* RemoteLLM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123ABD2AC332EE008AE1EA /* RemoteLLM.swift */; };
 		AB123ABF2AC332EE008AE1EA /* IosSensorBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AC02AC332EE008AE1EA /* IosSensorBridge.swift */; };
@@ -31,6 +32,7 @@
 		AB123AD12AC332EE008AE1EA /* VideoEffectsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AD22AC332EE008AE1EA /* VideoEffectsTool.swift */; };
 		AB123AD32AC332EE008AE1EA /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AD42AC332EE008AE1EA /* ConversationManager.swift */; };
 		AD82ACCD34E93B6DCEF06849 /* MediaPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */; };
+		B3F32CE8F8CDC6F084A28CD6 /* ToolRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0356FDCF2FA75502377F3F4F /* ToolRegistry.swift */; };
 		DD84C9FD2D747FED007778EC /* llama.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD84C9FC2D747FED007778EC /* llama.xcframework */; };
 		DD84C9FE2D747FED007778EC /* llama.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD84C9FC2D747FED007778EC /* llama.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F1FE20E22B465ECA00B45541 /* LoadCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FE20E12B465EC900B45541 /* LoadCustomButton.swift */; };
@@ -63,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0356FDCF2FA75502377F3F4F /* ToolRegistry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToolRegistry.swift; path = llama.swiftui/AGI/Tools/ToolRegistry.swift; sourceTree = "<group>"; };
 		2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerView.swift; sourceTree = "<group>"; };
 		549479CA2AC9E16000E0F78B /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		79E1D9CC2B4CD16E005F8E46 /* InputButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputButton.swift; sourceTree = "<group>"; };
@@ -76,6 +79,7 @@
 		8A3F84232AC4C891005E2EE8 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = llama.swiftui/Resources/models; sourceTree = "<group>"; };
 		8A907F322AC7134E006146EA /* LibLlama.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibLlama.swift; sourceTree = "<group>"; };
 		8A9F7C4C2AC332EE008AE1EA /* LlamaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaState.swift; sourceTree = "<group>"; };
+		96A9E7E52357DCBAA52E4703 /* ToolExecution+ChatView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ToolExecution+ChatView.swift"; path = "llama.swiftui/AGI/Tools/ToolExecution+ChatView.swift"; sourceTree = "<group>"; };
 		AB123ABB2AC332EE008AE1EA /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
 		AB123ABD2AC332EE008AE1EA /* RemoteLLM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLLM.swift; sourceTree = "<group>"; };
 		AB123AC02AC332EE008AE1EA /* IosSensorBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosSensorBridge.swift; sourceTree = "<group>"; };

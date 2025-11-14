@@ -7,6 +7,7 @@ struct HomeView: View {
     @State private var showModelSelector = false
     @State private var selectedAction: ActionType? = nil
     @State private var userPrompt: String? = nil
+    @State private var showToolTestChat = false
     
     let userName = "Guy"
     
@@ -29,6 +30,9 @@ struct HomeView: View {
                         
                         // Action Tiles
                         ActionTilesGrid(selectedAction: $selectedAction)
+                        
+                        // Debug: Tool Test Button
+                        ToolTestButton(showToolTestChat: $showToolTestChat)
                         
                         // Smart Suggestions
                         SmartSuggestionsSection()
@@ -60,6 +64,11 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showModelSelector) {
                 ModelSelectorView()
+            }
+            .sheet(isPresented: $showToolTestChat) {
+                NavigationStack {
+                    ToolTestChatView()
+                }
             }
         }
     }
@@ -394,6 +403,226 @@ struct SensorDataSection: View {
                     .font(Font.ruthCaption())
                     .foregroundColor(Color.ruthCyan)
                     .padding(16)
+            }
+        }
+    }
+}
+
+// MARK: - Tool Test Button
+
+struct ToolTestButton: View {
+    @Binding var showToolTestChat: Bool
+    
+    var body: some View {
+        Button {
+            HapticFeedback.medium.trigger()
+            showToolTestChat = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "wrench.and.screwdriver.fill")
+                    .font(.system(size: 20))
+                    .foregroundColor(Color.ruthCyan)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Test Tool Registry")
+                        .font(Font.ruthSubheadline())
+                        .foregroundColor(.white)
+                    
+                    Text("Debug tool execution")
+                        .font(Font.ruthCaption())
+                        .foregroundColor(.white.opacity(0.6))
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.4))
+            }
+            .padding(16)
+            .background(
+                GlassmorphicBackground(
+                    opacity: 0.15,
+                    cornerRadius: 16,
+                    glowColor: Color.ruthCyan
+                )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Tool Test Chat View
+
+struct ToolTestChatView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var messages: [ChatMessage] = []
+    @State private var selectedTool: String = "text_rewrite"
+    @State private var testPayload: String = "Hello Ruth"
+    
+    let availableTools = ToolRegistry.shared.getAllToolNames()
+    
+    var body: some View {
+        ZStack {
+            RuthGradientBackground()
+            
+            VStack(spacing: 20) {
+                // Tool selector
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Select Tool")
+                        .font(Font.ruthSubheadline())
+                        .foregroundColor(.white)
+                    
+                    Picker("Tool", selection: $selectedTool) {
+                        ForEach(availableTools, id: \.self) { tool in
+                            Text(tool).tag(tool)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .tint(Color.ruthCyan)
+                }
+                .padding(16)
+                .background(
+                    GlassmorphicBackground(
+                        opacity: 0.2,
+                        cornerRadius: 16
+                    )
+                )
+                
+                // Payload input
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Test Payload")
+                        .font(Font.ruthSubheadline())
+                        .foregroundColor(.white)
+                    
+                    TextField("Enter payload...", text: $testPayload)
+                        .font(Font.ruthBody())
+                        .foregroundColor(.white)
+                        .padding(12)
+                        .background(
+                            GlassmorphicBackground(
+                                opacity: 0.15,
+                                cornerRadius: 12
+                            )
+                        )
+                }
+                .padding(16)
+                .background(
+                    GlassmorphicBackground(
+                        opacity: 0.2,
+                        cornerRadius: 16
+                    )
+                )
+                
+                // Execute button
+                Button {
+                    executeTool()
+                } label: {
+                    Text("Execute Tool")
+                        .font(Font.ruthSubheadline())
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(16)
+                        .background(
+                            LinearGradient(
+                                colors: [Color.ruthNeonBlue, Color.ruthCyan],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(16)
+                }
+                .neonGlow(color: Color.ruthCyan, intensity: 0.6)
+                
+                // Results
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(messages) { message in
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text(message.text)
+                                    .font(Font.ruthCaption())
+                                    .foregroundColor(.white)
+                                    .padding(12)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(
+                                        GlassmorphicBackground(
+                                            opacity: 0.15,
+                                            cornerRadius: 12,
+                                            glowColor: message.isUser ? Color.ruthCyan : Color.ruthNeonBlue
+                                        )
+                                    )
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+                
+                Spacer()
+            }
+            .ruthSafeArea()
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Tool Test")
+                    .font(Font.ruthHeadline())
+                    .foregroundColor(.white)
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Done") {
+                    dismiss()
+                }
+                .foregroundColor(Color.ruthCyan)
+            }
+        }
+    }
+    
+    private func executeTool() {
+        HapticFeedback.medium.trigger()
+        
+        let userMessage = ChatMessage(
+            text: "🔧 Executing: \(selectedTool)\nPayload: \(testPayload)",
+            isUser: true,
+            source: .local
+        )
+        
+        withAnimation(.ruthSpring) {
+            messages.append(userMessage)
+        }
+        
+        Task {
+            // Use the ToolRegistry directly for testing
+            do {
+                let result = try await ToolRegistry.shared.execute(selectedTool, input: ["payload": testPayload])
+                
+                let resultMessage = ChatMessage(
+                    text: "✅ Result:\n\(String(describing: result))",
+                    isUser: false,
+                    source: .local
+                )
+                
+                await MainActor.run {
+                    withAnimation(.ruthSpring) {
+                        messages.append(resultMessage)
+                    }
+                }
+                
+                HapticFeedback.success.trigger()
+            } catch {
+                let errorMessage = ChatMessage(
+                    text: "❌ Error:\n\(error.localizedDescription)",
+                    isUser: false,
+                    source: .local
+                )
+                
+                await MainActor.run {
+                    withAnimation(.ruthSpring) {
+                        messages.append(errorMessage)
+                    }
+                }
+                
+                HapticFeedback.error.trigger()
             }
         }
     }
