@@ -33,7 +33,7 @@ actor LlamaContext {
     /// This variable is used to store temporarily invalid cchars
     private var temporary_invalid_cchars: [CChar]
 
-    var n_len: Int32 = 1024
+    var n_len: Int32 = 256  // Reduced from 1024 for faster responses
     var n_cur: Int32 = 0
 
     var n_decode: Int32 = 0
@@ -46,7 +46,8 @@ actor LlamaContext {
         self.temporary_invalid_cchars = []
         let sparams = llama_sampler_chain_default_params()
         self.sampling = llama_sampler_chain_init(sparams)
-        llama_sampler_chain_add(self.sampling, llama_sampler_init_temp(0.4))
+        // Increase temperature for faster sampling (less precise but faster)
+        llama_sampler_chain_add(self.sampling, llama_sampler_init_temp(0.7))
         llama_sampler_chain_add(self.sampling, llama_sampler_init_dist(1234))
         vocab = llama_model_get_vocab(model)
     }
@@ -113,6 +114,10 @@ actor LlamaContext {
     func get_n_tokens() -> Int32 {
         return batch.n_tokens;
     }
+    
+    func set_n_len(_ new_len: Int32) {
+        n_len = new_len
+    }
 
     func completion_init(text: String) {
         print("attempting to complete \"\(text)\"")
@@ -142,7 +147,9 @@ actor LlamaContext {
         batch.logits[Int(batch.n_tokens) - 1] = 1 // true
 
         if llama_decode(context, batch) != 0 {
-            print("llama_decode() failed")
+            print("⚠️ llama_decode() failed during initialization")
+            is_done = true
+            return
         }
 
         n_cur = batch.n_tokens
@@ -151,6 +158,13 @@ actor LlamaContext {
     func completion_loop() -> String {
         var new_token_id: llama_token = 0
 
+        // Check if we have valid batch
+        guard batch.n_tokens > 0 else {
+            print("⚠️ Empty batch, stopping generation")
+            is_done = true
+            return ""
+        }
+        
         new_token_id = llama_sampler_sample(sampling, context, batch.n_tokens - 1)
 
         if llama_vocab_is_eog(vocab, new_token_id) || n_cur == n_len {
@@ -185,7 +199,9 @@ actor LlamaContext {
         n_cur    += 1
 
         if llama_decode(context, batch) != 0 {
-            print("failed to evaluate llama!")
+            print("⚠️ llama_decode failed, stopping generation")
+            is_done = true
+            return new_token_str
         }
 
         return new_token_str

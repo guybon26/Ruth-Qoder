@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Ruth needs camera access to capture photos for editing and analysis.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Ruth needs photo library access to select images and videos for processing.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Ruth needs permission to save edited photos and videos to your library.</string>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
+</dict>
+</plist>

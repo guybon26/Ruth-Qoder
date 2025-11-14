@@ -436,6 +436,7 @@ llama_token llama_sampler_sample(struct llama_sampler * smpl, struct llama_conte
 
     return token;
 }
+/var/folders/wl/40f_zlf90m747zqtsqzrtrmr0000gn/T/simulator_screenshot_E4CF887A-3830-4F95-B816-3960F996FB5E.png
 
 // sampler chain
 

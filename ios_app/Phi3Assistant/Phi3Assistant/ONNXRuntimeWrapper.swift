@@ -59,12 +59,19 @@ class ONNXRuntimeWrapper {
             throw ONNXError.noOutputs
         }
         
+        // Get output shape
+        let outputShape = try outputValue.tensorTypeAndShapeInfo().shape
+        NSLog("📊 Output shape: \(outputShape)")
+        NSLog("📊 Expected: [1, \(seqLength), 32064]")
+        
         // Extract float data from output
         let outputData = try outputValue.tensorData() as Data
         let floatArray = outputData.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) -> [Float] in
             let floatPtr = ptr.bindMemory(to: Float.self)
             return Array(floatPtr)
         }
+        
+        NSLog("📊 Total logits received: \(floatArray.count)")
         
         return floatArray
     }

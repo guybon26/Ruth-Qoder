@@ -17,9 +17,35 @@
 		8A3F84242AC4C891005E2EE8 /* models in Resources */ = {isa = PBXBuildFile; fileRef = 8A3F84232AC4C891005E2EE8 /* models */; };
 		8A907F332AC7138A006146EA /* LibLlama.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A907F322AC7134E006146EA /* LibLlama.swift */; };
 		8A9F7C4D2AC332EE008AE1EA /* LlamaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9F7C4C2AC332EE008AE1EA /* LlamaState.swift */; };
+		AB123ABC2AC332EE008AE1EA /* TaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123ABB2AC332EE008AE1EA /* TaskRouter.swift */; };
+		AB123ABE2AC332EE008AE1EA /* RemoteLLM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123ABD2AC332EE008AE1EA /* RemoteLLM.swift */; };
+		AB123ABF2AC332EE008AE1EA /* IosSensorBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AC02AC332EE008AE1EA /* IosSensorBridge.swift */; };
+		AB123AC12AC332EE008AE1EA /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AC22AC332EE008AE1EA /* Tools.swift */; };
+		AB123AC32AC332EE008AE1EA /* Sensors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AC42AC332EE008AE1EA /* Sensors.swift */; };
+		AB123AC52AC332EE008AE1EA /* LocalContextStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AC62AC332EE008AE1EA /* LocalContextStore.swift */; };
+		AB123AC72AC332EE008AE1EA /* PreferenceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AC82AC332EE008AE1EA /* PreferenceEngine.swift */; };
+		AB123AC92AC332EE008AE1EA /* CloudLLMClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123ACA2AC332EE008AE1EA /* CloudLLMClient.swift */; };
+		AB123ACB2AC332EE008AE1EA /* RedactionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123ACC2AC332EE008AE1EA /* RedactionEngine.swift */; };
+		AB123ACD2AC332EE008AE1EA /* FederatedClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123ACE2AC332EE008AE1EA /* FederatedClient.swift */; };
+		AB123ACF2AC332EE008AE1EA /* PhotoEditorTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AD02AC332EE008AE1EA /* PhotoEditorTool.swift */; };
+		AB123AD12AC332EE008AE1EA /* VideoEffectsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AD22AC332EE008AE1EA /* VideoEffectsTool.swift */; };
+		AB123AD32AC332EE008AE1EA /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB123AD42AC332EE008AE1EA /* ConversationManager.swift */; };
+		AD82ACCD34E93B6DCEF06849 /* MediaPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */; };
 		DD84C9FD2D747FED007778EC /* llama.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD84C9FC2D747FED007778EC /* llama.xcframework */; };
 		DD84C9FE2D747FED007778EC /* llama.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD84C9FC2D747FED007778EC /* llama.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F1FE20E22B465ECA00B45541 /* LoadCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FE20E12B465EC900B45541 /* LoadCustomButton.swift */; };
+		RU123AD52AC332EE008AE1EA /* GlassmorphicBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AD62AC332EE008AE1EA /* GlassmorphicBackground.swift */; };
+		RU123AD72AC332EE008AE1EA /* NeonGlowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AD82AC332EE008AE1EA /* NeonGlowModifier.swift */; };
+		RU123AD92AC332EE008AE1EA /* FloatingAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123ADA2AC332EE008AE1EA /* FloatingAnimation.swift */; };
+		RU123ADB2AC332EE008AE1EA /* PulsingRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123ADC2AC332EE008AE1EA /* PulsingRing.swift */; };
+		RU123ADD2AC332EE008AE1EA /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123ADE2AC332EE008AE1EA /* ButtonStyles.swift */; };
+		RU123ADF2AC332EE008AE1EA /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AE02AC332EE008AE1EA /* UIExtensions.swift */; };
+		RU123AE12AC332EE008AE1EA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AE22AC332EE008AE1EA /* HomeView.swift */; };
+		RU123AE32AC332EE008AE1EA /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AE42AC332EE008AE1EA /* ChatView.swift */; };
+		RU123AE52AC332EE008AE1EA /* PhotoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AE62AC332EE008AE1EA /* PhotoEditorView.swift */; };
+		RU123AE72AC332EE008AE1EA /* VideoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AE82AC332EE008AE1EA /* VideoEditorView.swift */; };
+		RU123AE92AC332EE008AE1EA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AEA2AC332EE008AE1EA /* SettingsView.swift */; };
+		RU123AEB2AC332EE008AE1EA /* RuthAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AEC2AC332EE008AE1EA /* RuthAppView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,9 +63,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerView.swift; sourceTree = "<group>"; };
 		549479CA2AC9E16000E0F78B /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		79E1D9CC2B4CD16E005F8E46 /* InputButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputButton.swift; sourceTree = "<group>"; };
 		7FA3D2B22B2EA2F600543F92 /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
+		81E367A3D7A532A53A8668C6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A1C83732AC328BD0096AF73 /* llama.swiftui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = llama.swiftui.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A1C83762AC328BD0096AF73 /* llama_swiftuiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = llama_swiftuiApp.swift; sourceTree = "<group>"; };
 		8A1C83782AC328BD0096AF73 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,9 +76,34 @@
 		8A3F84232AC4C891005E2EE8 /* models */ = {isa = PBXFileReference; lastKnownFileType = folder; name = models; path = llama.swiftui/Resources/models; sourceTree = "<group>"; };
 		8A907F322AC7134E006146EA /* LibLlama.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibLlama.swift; sourceTree = "<group>"; };
 		8A9F7C4C2AC332EE008AE1EA /* LlamaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaState.swift; sourceTree = "<group>"; };
+		AB123ABB2AC332EE008AE1EA /* TaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRouter.swift; sourceTree = "<group>"; };
+		AB123ABD2AC332EE008AE1EA /* RemoteLLM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLLM.swift; sourceTree = "<group>"; };
+		AB123AC02AC332EE008AE1EA /* IosSensorBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosSensorBridge.swift; sourceTree = "<group>"; };
+		AB123AC22AC332EE008AE1EA /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		AB123AC42AC332EE008AE1EA /* Sensors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensors.swift; sourceTree = "<group>"; };
+		AB123AC62AC332EE008AE1EA /* LocalContextStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContextStore.swift; sourceTree = "<group>"; };
+		AB123AC82AC332EE008AE1EA /* PreferenceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceEngine.swift; sourceTree = "<group>"; };
+		AB123ACA2AC332EE008AE1EA /* CloudLLMClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudLLMClient.swift; sourceTree = "<group>"; };
+		AB123ACC2AC332EE008AE1EA /* RedactionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactionEngine.swift; sourceTree = "<group>"; };
+		AB123ACE2AC332EE008AE1EA /* FederatedClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FederatedClient.swift; sourceTree = "<group>"; };
+		AB123AD02AC332EE008AE1EA /* PhotoEditorTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorTool.swift; sourceTree = "<group>"; };
+		AB123AD22AC332EE008AE1EA /* VideoEffectsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEffectsTool.swift; sourceTree = "<group>"; };
+		AB123AD42AC332EE008AE1EA /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
 		DD84C9FC2D747FED007778EC /* llama.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = llama.xcframework; path = "../../build-apple/llama.xcframework"; sourceTree = "<group>"; };
 		DF2D2FE72B4A59BE00FCB72D /* llama.cpp */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = llama.cpp; path = ../..; sourceTree = "<group>"; };
 		F1FE20E12B465EC900B45541 /* LoadCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadCustomButton.swift; sourceTree = "<group>"; };
+		RU123AD62AC332EE008AE1EA /* GlassmorphicBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicBackground.swift; sourceTree = "<group>"; };
+		RU123AD82AC332EE008AE1EA /* NeonGlowModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeonGlowModifier.swift; sourceTree = "<group>"; };
+		RU123ADA2AC332EE008AE1EA /* FloatingAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingAnimation.swift; sourceTree = "<group>"; };
+		RU123ADC2AC332EE008AE1EA /* PulsingRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulsingRing.swift; sourceTree = "<group>"; };
+		RU123ADE2AC332EE008AE1EA /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		RU123AE02AC332EE008AE1EA /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
+		RU123AE22AC332EE008AE1EA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		RU123AE42AC332EE008AE1EA /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		RU123AE62AC332EE008AE1EA /* PhotoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorView.swift; sourceTree = "<group>"; };
+		RU123AE82AC332EE008AE1EA /* VideoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorView.swift; sourceTree = "<group>"; };
+		RU123AEA2AC332EE008AE1EA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		RU123AEC2AC332EE008AE1EA /* RuthAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuthAppView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +148,7 @@
 				8A9F7C4A2AC332BF008AE1EA /* UI */,
 				8A1C83762AC328BD0096AF73 /* llama_swiftuiApp.swift */,
 				8A1C837A2AC328BE0096AF73 /* Assets.xcassets */,
+				81E367A3D7A532A53A8668C6 /* Info.plist */,
 			);
 			path = llama.swiftui;
 			sourceTree = "<group>";
@@ -139,6 +193,10 @@
 				8A1C83782AC328BD0096AF73 /* ContentView.swift */,
 				F1FE20E12B465EC900B45541 /* LoadCustomButton.swift */,
 				79E1D9CC2B4CD16E005F8E46 /* InputButton.swift */,
+				RU123AED2AC332EE008AE1EA /* Utilities */,
+				RU123AEE2AC332EE008AE1EA /* Views */,
+				RU123AEC2AC332EE008AE1EA /* RuthAppView.swift */,
+				AFC5D7F9944488E73B7BD714 /* Components */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -147,8 +205,54 @@
 			isa = PBXGroup;
 			children = (
 				8A9F7C4C2AC332EE008AE1EA /* LlamaState.swift */,
+				AB123ABB2AC332EE008AE1EA /* TaskRouter.swift */,
+				AB123ABD2AC332EE008AE1EA /* RemoteLLM.swift */,
+				AB123AC02AC332EE008AE1EA /* IosSensorBridge.swift */,
+				AB123AC22AC332EE008AE1EA /* Tools.swift */,
+				AB123AC42AC332EE008AE1EA /* Sensors.swift */,
+				AB123AC62AC332EE008AE1EA /* LocalContextStore.swift */,
+				AB123AC82AC332EE008AE1EA /* PreferenceEngine.swift */,
+				AB123ACA2AC332EE008AE1EA /* CloudLLMClient.swift */,
+				AB123ACC2AC332EE008AE1EA /* RedactionEngine.swift */,
+				AB123ACE2AC332EE008AE1EA /* FederatedClient.swift */,
+				AB123AD02AC332EE008AE1EA /* PhotoEditorTool.swift */,
+				AB123AD22AC332EE008AE1EA /* VideoEffectsTool.swift */,
+				AB123AD42AC332EE008AE1EA /* ConversationManager.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		AFC5D7F9944488E73B7BD714 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		RU123AED2AC332EE008AE1EA /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				RU123AD62AC332EE008AE1EA /* GlassmorphicBackground.swift */,
+				RU123AD82AC332EE008AE1EA /* NeonGlowModifier.swift */,
+				RU123ADA2AC332EE008AE1EA /* FloatingAnimation.swift */,
+				RU123ADC2AC332EE008AE1EA /* PulsingRing.swift */,
+				RU123ADE2AC332EE008AE1EA /* ButtonStyles.swift */,
+				RU123AE02AC332EE008AE1EA /* UIExtensions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		RU123AEE2AC332EE008AE1EA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				RU123AE22AC332EE008AE1EA /* HomeView.swift */,
+				RU123AE42AC332EE008AE1EA /* ChatView.swift */,
+				RU123AE62AC332EE008AE1EA /* PhotoEditorView.swift */,
+				RU123AE82AC332EE008AE1EA /* VideoEditorView.swift */,
+				RU123AEA2AC332EE008AE1EA /* SettingsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,8 +272,6 @@
 			dependencies = (
 			);
 			name = llama.swiftui;
-			packageProductDependencies = (
-			);
 			productName = llama.swiftui;
 			productReference = 8A1C83732AC328BD0096AF73 /* llama.swiftui.app */;
 			productType = "com.apple.product-type.application";
@@ -199,8 +301,6 @@
 				Base,
 			);
 			mainGroup = 8A1C836A2AC328BD0096AF73;
-			packageReferences = (
-			);
 			productRefGroup = 8A1C83742AC328BD0096AF73 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -230,10 +330,36 @@
 				F1FE20E22B465ECA00B45541 /* LoadCustomButton.swift in Sources */,
 				8A907F332AC7138A006146EA /* LibLlama.swift in Sources */,
 				8A9F7C4D2AC332EE008AE1EA /* LlamaState.swift in Sources */,
+				AB123ABC2AC332EE008AE1EA /* TaskRouter.swift in Sources */,
+				AB123ABE2AC332EE008AE1EA /* RemoteLLM.swift in Sources */,
+				AB123ABF2AC332EE008AE1EA /* IosSensorBridge.swift in Sources */,
+				AB123AC12AC332EE008AE1EA /* Tools.swift in Sources */,
+				AB123AC32AC332EE008AE1EA /* Sensors.swift in Sources */,
+				AB123AC52AC332EE008AE1EA /* LocalContextStore.swift in Sources */,
+				AB123AC72AC332EE008AE1EA /* PreferenceEngine.swift in Sources */,
+				AB123AC92AC332EE008AE1EA /* CloudLLMClient.swift in Sources */,
+				AB123ACB2AC332EE008AE1EA /* RedactionEngine.swift in Sources */,
+				AB123ACD2AC332EE008AE1EA /* FederatedClient.swift in Sources */,
+				AB123ACF2AC332EE008AE1EA /* PhotoEditorTool.swift in Sources */,
+				AB123AD12AC332EE008AE1EA /* VideoEffectsTool.swift in Sources */,
+				AB123AD32AC332EE008AE1EA /* ConversationManager.swift in Sources */,
+				RU123AD52AC332EE008AE1EA /* GlassmorphicBackground.swift in Sources */,
+				RU123AD72AC332EE008AE1EA /* NeonGlowModifier.swift in Sources */,
+				RU123AD92AC332EE008AE1EA /* FloatingAnimation.swift in Sources */,
+				RU123ADB2AC332EE008AE1EA /* PulsingRing.swift in Sources */,
+				RU123ADD2AC332EE008AE1EA /* ButtonStyles.swift in Sources */,
+				RU123ADF2AC332EE008AE1EA /* UIExtensions.swift in Sources */,
+				RU123AE12AC332EE008AE1EA /* HomeView.swift in Sources */,
+				RU123AE32AC332EE008AE1EA /* ChatView.swift in Sources */,
+				RU123AE52AC332EE008AE1EA /* PhotoEditorView.swift in Sources */,
+				RU123AE72AC332EE008AE1EA /* VideoEditorView.swift in Sources */,
+				RU123AE92AC332EE008AE1EA /* SettingsView.swift in Sources */,
+				RU123AEB2AC332EE008AE1EA /* RuthAppView.swift in Sources */,
 				8A1C83792AC328BD0096AF73 /* ContentView.swift in Sources */,
 				8A1C83772AC328BD0096AF73 /* llama_swiftuiApp.swift in Sources */,
 				7FA3D2B32B2EA2F600543F92 /* DownloadButton.swift in Sources */,
 				79E1D9CD2B4CD16E005F8E46 /* InputButton.swift in Sources */,
+				AD82ACCD34E93B6DCEF06849 /* MediaPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,11 +490,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K5UQJPP73A;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = llama.swiftui/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to provide context-aware AI responses";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs permission to save edited photos and videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photos to apply filters and edits";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -382,6 +513,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bachittle.llama-swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -396,11 +528,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = K5UQJPP73A;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = llama.swiftui/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to provide context-aware AI responses";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app needs permission to save edited photos and videos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photos to apply filters and edits";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -414,6 +551,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bachittle.llama-swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;

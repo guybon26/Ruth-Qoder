@@ -8,6 +8,43 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                // Loading indicator
+                if llamaState.isLoadingModel {
+                    VStack {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.5)
+                        Text(llamaState.loadingProgress)
+                            .font(.headline)
+                            .padding(.top, 10)
+                        Text("This may take 10-30 seconds...")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.3))
+                }
+                
+                // Sensor data display
+                if !llamaState.sensorData.isEmpty && llamaState.sensorData != "No sensor data available" {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Image(systemName: "location.fill")
+                                .foregroundColor(.blue)
+                            Text("Sensor Data")
+                                .font(.caption)
+                                .bold()
+                        }
+                        Text(llamaState.sensorData)
+                            .font(.system(size: 10, design: .monospaced))
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(8)
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+                }
+                
                 ScrollView(.vertical, showsIndicators: true) {
                     Text(llamaState.messageLog)
                         .font(.system(size: 12))
@@ -98,6 +135,9 @@ struct ContentView: View {
         }
         var body: some View {
             List {
+                Section(header: Text("Load Local Model")) {
+                    LoadCustomButton(llamaState: llamaState)
+                }
                 Section(header: Text("Download Models From Hugging Face")) {
                     HStack {
                         InputButton(llamaState: llamaState)

@@ -29,7 +29,20 @@ struct LoadCustomButton: View {
                     if !gotAccess { return }
 
                     do {
-                        try llamaState.loadModel(modelUrl: file.absoluteURL)
+                        // Copy file to documents directory to avoid security-scoped resource issues
+                        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                        let destinationURL = documentsURL.appendingPathComponent(file.lastPathComponent)
+                        
+                        // Remove existing file if it exists
+                        if FileManager.default.fileExists(atPath: destinationURL.path) {
+                            try FileManager.default.removeItem(at: destinationURL)
+                        }
+                        
+                        // Copy the file
+                        try FileManager.default.copyItem(at: file, to: destinationURL)
+                        
+                        // Load the copied file
+                        try llamaState.loadModel(modelUrl: destinationURL)
                     } catch let err {
                         print("Error: \(err.localizedDescription)")
                     }
