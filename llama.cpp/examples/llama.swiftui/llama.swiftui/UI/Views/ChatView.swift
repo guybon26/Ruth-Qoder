@@ -173,9 +173,34 @@ struct ChatView: View {
     private func getRealResponse(for prompt: String) async {
         isTyping = true
         
+        // Check if this is a complex instruction that requires planning
+        if llamaState.isComplexInstruction(prompt) {
+            print("🧠 Complex instruction detected, using Planner + Critic agents")
+            
+            // Use the planning agents to break down the instruction
+            let planResult = await llamaState.handleComplexInstruction(prompt)
+            
+            let response = ChatMessage(
+                text: planResult,
+                isUser: false,
+                source: .local
+            )
+            
+            // Log the planned steps
+            memoryStore?.logEvent(.querySubmitted(query: planResult, timestamp: Date()))
+            
+            withAnimation(.ruthSpring) {
+                messages.append(response)
+                isTyping = false
+            }
+            
+            HapticFeedback.success.trigger()
+            return
+        }
+        
         // Use TaskRouter to determine which model to use
         let modelType = llamaState.taskRouter.determineModel(for: prompt)
-        let modelName = llamaState.taskRouter.getModelDescription(for: modelType)
+        _ = llamaState.taskRouter.getModelDescription(for: modelType)
         
         // Check if this is an image generation or other impossible task
         if let intent = ConversationManager.detectIntent(from: prompt),
@@ -206,13 +231,13 @@ struct ChatView: View {
         }
         
         // Capture messageLog before
-        let beforeLog = await llamaState.messageLog
+        let beforeLog = llamaState.messageLog
         
         // Call the appropriate model based on routing decision
         await llamaState.complete(text: prompt)
         
         // Extract response from messageLog diff
-        let afterLog = await llamaState.messageLog
+        let afterLog = llamaState.messageLog
         let responseText = extractResponse(before: beforeLog, after: afterLog)
         
         // Determine source based on routing

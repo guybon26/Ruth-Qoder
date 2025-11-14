@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		549479CB2AC9E16000E0F78B /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 549479CA2AC9E16000E0F78B /* Metal.framework */; };
+		7707BD93DBA60A8A172C46EF /* Agents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7869CEF747E7A87C5CC009 /* Agents.swift */; };
 		79E1D9CD2B4CD16E005F8E46 /* InputButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E1D9CC2B4CD16E005F8E46 /* InputButton.swift */; };
 		7FA3D2B32B2EA2F600543F92 /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA3D2B22B2EA2F600543F92 /* DownloadButton.swift */; };
 		8A1C83772AC328BD0096AF73 /* llama_swiftuiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1C83762AC328BD0096AF73 /* llama_swiftuiApp.swift */; };
@@ -34,6 +35,7 @@
 		AD82ACCD34E93B6DCEF06849 /* MediaPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */; };
 		DD84C9FD2D747FED007778EC /* llama.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD84C9FC2D747FED007778EC /* llama.xcframework */; };
 		DD84C9FE2D747FED007778EC /* llama.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD84C9FC2D747FED007778EC /* llama.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAA4AE554CB2F182C2D915BF /* Agents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F6CB6C6715C7533F432BCD /* Agents.swift */; };
 		F1FE20E22B465ECA00B45541 /* LoadCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1FE20E12B465EC900B45541 /* LoadCustomButton.swift */; };
 		RU123AD52AC332EE008AE1EA /* GlassmorphicBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AD62AC332EE008AE1EA /* GlassmorphicBackground.swift */; };
 		RU123AD72AC332EE008AE1EA /* NeonGlowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = RU123AD82AC332EE008AE1EA /* NeonGlowModifier.swift */; };
@@ -66,6 +68,7 @@
 /* Begin PBXFileReference section */
 		2891C05B74A2C9452F5BE321 /* MediaPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerView.swift; sourceTree = "<group>"; };
 		549479CA2AC9E16000E0F78B /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		6C7869CEF747E7A87C5CC009 /* Agents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Agents.swift; sourceTree = "<group>"; };
 		79E1D9CC2B4CD16E005F8E46 /* InputButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputButton.swift; sourceTree = "<group>"; };
 		7FA3D2B22B2EA2F600543F92 /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		81E367A3D7A532A53A8668C6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 		AB123AD42AC332EE008AE1EA /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
 		DD84C9FC2D747FED007778EC /* llama.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = llama.xcframework; path = "../../build-apple/llama.xcframework"; sourceTree = "<group>"; };
 		DF2D2FE72B4A59BE00FCB72D /* llama.cpp */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = llama.cpp; path = ../..; sourceTree = "<group>"; };
+		E4F6CB6C6715C7533F432BCD /* Agents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Agents.swift; path = llama.swiftui/AGI/Agents/Agents.swift; sourceTree = "<group>"; };
 		F1FE20E12B465EC900B45541 /* LoadCustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadCustomButton.swift; sourceTree = "<group>"; };
 		FA3BEC063F4F53D1F23AE389 /* ZKProofEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ZKProofEngine.swift; path = llama.swiftui/AGI/Federation/ZKProofEngine.swift; sourceTree = "<group>"; };
 		RU123AD62AC332EE008AE1EA /* GlassmorphicBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassmorphicBackground.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				B9489DE5E97B0BFDDE968108 /* Federation */,
+				DD2955AAADC1FC1E077F2035 /* Agents */,
 			);
 			name = AGI;
 			sourceTree = SOURCE_ROOT;
@@ -247,6 +252,14 @@
 				FA3BEC063F4F53D1F23AE389 /* ZKProofEngine.swift */,
 			);
 			name = Federation;
+			sourceTree = "<group>";
+		};
+		DD2955AAADC1FC1E077F2035 /* Agents */ = {
+			isa = PBXGroup;
+			children = (
+				E4F6CB6C6715C7533F432BCD /* Agents.swift */,
+			);
+			name = Agents;
 			sourceTree = "<group>";
 		};
 		RU123AED2AC332EE008AE1EA /* Utilities */ = {
@@ -380,6 +393,7 @@
 				79E1D9CD2B4CD16E005F8E46 /* InputButton.swift in Sources */,
 				AD82ACCD34E93B6DCEF06849 /* MediaPickerView.swift in Sources */,
 				985B42618E735556E41B2D39 /* ZKProofEngine.swift in Sources */,
+				EAA4AE554CB2F182C2D915BF /* Agents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
