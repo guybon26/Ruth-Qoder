@@ -268,7 +268,7 @@ struct ChatView: View {
         }
         
         let newContent = String(after.dropFirst(before.count))
-        print("📝 Raw new content (\(newContent.count) chars): \(newContent.prefix(200))...")
+        print("📝 Raw new content (\(newContent.count) chars): \(newContent.prefix(300))...")
         
         // Find the actual response by removing known metadata patterns
         var cleanedContent = newContent
@@ -277,6 +277,12 @@ struct ChatView: View {
         if let usingRange = cleanedContent.range(of: #"\[Using: [^\]]+\]\n"#, options: .regularExpression) {
             cleanedContent.removeSubrange(usingRange)
         }
+        
+        // Remove Phi-3 chat template tags if present
+        cleanedContent = cleanedContent
+            .replacingOccurrences(of: "<|user|>", with: "")
+            .replacingOccurrences(of: "<|end|>", with: "")
+            .replacingOccurrences(of: "<|assistant|>", with: "")
         
         // Remove the user prompt echo (everything up to and including the first double newline)
         // This handles the case where the model echoes the prompt before responding
@@ -314,6 +320,9 @@ struct ChatView: View {
             // Return the raw content with minimal cleaning as fallback
             let fallback = newContent
                 .replacingOccurrences(of: #"\[Using: [^\]]+\]\n"#, with: "", options: .regularExpression)
+                .replacingOccurrences(of: "<|user|>", with: "")
+                .replacingOccurrences(of: "<|end|>", with: "")
+                .replacingOccurrences(of: "<|assistant|>", with: "")
                 .replacingOccurrences(of: #"\n\s*Done\s*\n.*$"#, with: "", options: .regularExpression)
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             

@@ -121,8 +121,17 @@ actor LlamaContext {
 
     func completion_init(text: String) {
         print("attempting to complete \"\(text)\"")
+        
+        // Reset state
+        is_done = false
+        n_cur = 0
+        n_decode = 0
 
-        tokens_list = tokenize(text: text, add_bos: true)
+        // Format the prompt using Phi-3 chat template
+        let formattedPrompt = "<|user|>\n\(text)<|end|>\n<|assistant|>\n"
+        print("📝 Formatted prompt: \(formattedPrompt)")
+        
+        tokens_list = tokenize(text: formattedPrompt, add_bos: true)
         temporary_invalid_cchars = []
 
         let n_ctx = llama_n_ctx(context)
@@ -309,6 +318,9 @@ actor LlamaContext {
         tokens_list.removeAll()
         temporary_invalid_cchars.removeAll()
         llama_memory_clear(llama_get_memory(context), true)
+        is_done = false  // Reset the done flag
+        n_cur = 0
+        n_decode = 0
     }
 
     private func tokenize(text: String, add_bos: Bool) -> [llama_token] {
