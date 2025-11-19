@@ -128,23 +128,21 @@ actor LlamaContext {
         n_decode = 0
 
         // Format the prompt using Phi-3 chat template
+        // Note: We use parse_special=true to properly handle the template tokens
         let formattedPrompt = "<|user|>\n\(text)<|end|>\n<|assistant|>\n"
         print("📝 Formatted prompt: \(formattedPrompt)")
         
-        tokens_list = tokenize(text: formattedPrompt, add_bos: true)
+        // Tokenize with parse_special=true to handle chat template tokens properly
+        tokens_list = tokenize(text: formattedPrompt, add_bos: true, parse_special: true)
         temporary_invalid_cchars = []
 
         let n_ctx = llama_n_ctx(context)
         let n_kv_req = tokens_list.count + (Int(n_len) - tokens_list.count)
 
-        print("\n n_len = \(n_len), n_ctx = \(n_ctx), n_kv_req = \(n_kv_req)")
+        print("\n n_len = \(n_len), n_ctx = \(n_ctx), n_kv_req = \(n_kv_req), tokens = \(tokens_list.count)")
 
         if n_kv_req > n_ctx {
             print("error: n_kv_req > n_ctx, the required KV cache size is not big enough")
-        }
-
-        for id in tokens_list {
-            print(String(cString: token_to_piece(token: id) + [0]))
         }
 
         llama_batch_clear(&batch)
@@ -325,11 +323,11 @@ actor LlamaContext {
         n_decode = 0
     }
 
-    private func tokenize(text: String, add_bos: Bool) -> [llama_token] {
+    private func tokenize(text: String, add_bos: Bool, parse_special: Bool = false) -> [llama_token] {
         let utf8Count = text.utf8.count
         let n_tokens = utf8Count + (add_bos ? 1 : 0) + 1
         let tokens = UnsafeMutablePointer<llama_token>.allocate(capacity: n_tokens)
-        let tokenCount = llama_tokenize(vocab, text, Int32(utf8Count), tokens, Int32(n_tokens), add_bos, false)
+        let tokenCount = llama_tokenize(vocab, text, Int32(utf8Count), tokens, Int32(n_tokens), add_bos, parse_special)
 
         var swiftTokens: [llama_token] = []
         for i in 0..<tokenCount {
