@@ -167,16 +167,18 @@ actor LlamaContext {
     func completion_loop() -> String {
         var new_token_id: llama_token = 0
 
-        // Check if we have valid batch
-        guard batch.n_tokens > 0 else {
-            print("⚠️ Empty batch, stopping generation")
+        // Check if generation is complete
+        if n_cur >= n_len {
             is_done = true
             return ""
         }
         
-        new_token_id = llama_sampler_sample(sampling, context, batch.n_tokens - 1)
+        // Sample the next token
+        // We always sample from the last position in the batch (index 0 after first decode)
+        // because the batch contains only 1 token after the initial prompt processing
+        new_token_id = llama_sampler_sample(sampling, context, Int32(batch.n_tokens) - 1)
 
-        if llama_vocab_is_eog(vocab, new_token_id) || n_cur == n_len {
+        if llama_vocab_is_eog(vocab, new_token_id) {
             print("\n")
             is_done = true
             let new_token_str = String(cString: temporary_invalid_cchars + [0])
@@ -198,9 +200,9 @@ actor LlamaContext {
         } else {
             new_token_str = ""
         }
-        print(new_token_str)
-        // tokens_list.append(new_token_id)
+        print(new_token_str, terminator: "")
 
+        // Prepare next batch with the new token
         llama_batch_clear(&batch)
         llama_batch_add(&batch, new_token_id, n_cur, [0], true)
 
@@ -208,7 +210,7 @@ actor LlamaContext {
         n_cur    += 1
 
         if llama_decode(context, batch) != 0 {
-            print("⚠️ llama_decode failed, stopping generation")
+            print("\n⚠️ llama_decode failed, stopping generation")
             is_done = true
             return new_token_str
         }
